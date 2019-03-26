@@ -1,8 +1,5 @@
-
 <html>
-
   <style>
-
     html * {
        font-family: Arial, Helvetica, sans-serif;
     }
@@ -35,92 +32,93 @@
       text-align: left;
       color: black;
     }
-
   </style>
 
-<body>
-	<div>
-		<h2>Countdown to New Year's Eve</h2>
-		<div class="days"><p id="days">-</p><p>Days</p></div>
-		<div class="hours"><p id="hours">-</p><p>Hours</p></div>
-		<div class="minutes"><p id="minutes">-</p><p>Minutes</p></div>
-		<div class="seconds"><p id="seconds">-</p><p>Seconds</p></div>
-	</div>
+  <body>
+  	<div>
+  		<h2>Countdown to New Year's Eve</h2>
+  		<div class="days"><p id="days">-</p><p>Days</p></div>
+  		<div class="hours"><p id="hours">-</p><p>Hours</p></div>
+  		<div class="minutes"><p id="minutes">-</p><p>Minutes</p></div>
+  		<div class="seconds"><p id="seconds">-</p><p>Seconds</p></div>
+  	</div>
 
-  <div>
-    <h2>El numero Random para randomNumber(500) es:</h2>
-    <p id="random">-</p>
-  </div>
+    <div>
+      <h2>El numero Random para randomNumber(500) es:</h2>
+      <p id="random">-</p>
+    </div>
 
-</body>
+  </body>
 
-<script type="text/javascript">
+  <script type="text/javascript">
+    // Get New Year's Eve date
+    var new_years = new Date("2020/01/01 00:00:00");
 
-  // Get New Year's Eve date
-  var new_years = new Date("2020/01/01 00:00:00");
-
-  // Interval function to execute code inside every 1 second
-  var t=setInterval(function(){
-      
-    // Get current Date
-    var current = new Date();
-    
-    // Obtain difference bewteen both dates in milliseconds
-    var ms = Math.abs(new_years - current);
-
-    document.getElementById("days").innerHTML = Math.floor(ms/1000/60/60/24);
-    document.getElementById("hours").innerHTML = Math.floor((ms/1000/60/60) % 24);
-    document.getElementById("minutes").innerHTML = Math.floor((ms/1000/60) % 60);
-    document.getElementById("seconds").innerHTML = Math.floor((ms/1000) % 60);
-    }
-  ,1000);
-
-  function flip() {
-    return Math.random() >= 0.5;
-  }
-
-  function randomNumber(n){
-    
-    //Validation for parameter n
-    if (n < 1000000){
-      
-      // Get number of bits in parameter
-      var num_bits = n.toString(2).length;
-      var result;
-
-      //Do while the outcome is greater than or equal to n
-      do{
+    // Interval function to execute code inside every 1 second
+    var t=setInterval(function(){
         
-        var i, bit;
-        var str = "";
+      // Get current Date
+      var current = new Date();
+      
+      // Obtain difference bewteen both dates in milliseconds
+      var ms = Math.abs(new_years - current);
 
-        // Generate #num_bits# random bits
-        for (i = 0; i < num_bits ; i++){
-          if (flip()){
-            bit = "1";
-          }else{
-            bit = "0";
-          }
-          // Concatenate one by one bit
-          str += bit;
-        }
+      // Extract D/M/H/S and insert them into document
+      document.getElementById("days").innerHTML = Math.floor(ms/1000/60/60/24);
+      document.getElementById("hours").innerHTML = Math.floor((ms/1000/60/60) % 24);
+      document.getElementById("minutes").innerHTML = Math.floor((ms/1000/60) % 60);
+      document.getElementById("seconds").innerHTML = Math.floor((ms/1000) % 60);
+      }
+    ,1000);
 
-        //Parse result binary string to Integer
-        result = parseInt(str,2);
-        console.log("Result is "+result);
-      } while (result >= n);
-
-      return result;
-
-    } else {
-      window.alert("Error, input number is greater than 999,999")
-      return "-";
+    //Pre-defined function
+    function flip() {
+      return Math.random() >= 0.5;
     }
 
-  }
+    // The idea is to generate a string of random bits with the same length of the original number (in binay)
+    // If the result is greater than n, try again until it is smaller
+    function randomNumber(n){
+      
+      //Validation for parameter n
+      if (n < 1000000){
+        
+        // Get number of bits in parameter
+        var num_bits = n.toString(2).length;
+        var result;
 
-  document.getElementById("random").innerHTML = randomNumber(500);
+        //Do while the outcome is greater than or equal to n
+        do{
+          
+          var i, bit;
+          var str = "";
 
-</script>
+          // Generate #num_bits# random bits
+          for (i = 0; i < num_bits ; i++){
+            if (flip()){
+              bit = "1";
+            }else{
+              bit = "0";
+            }
+            // Concatenate one by one bit
+            str += bit;
+          }
+
+          //Parse result binary string to Integer
+          result = parseInt(str,2);
+          console.log("Result is "+result);
+        } while (result >= n);
+
+        return result;
+
+      } else {
+        window.alert("Error, input number is greater than 999,999")
+        return "-";
+      }
+
+    }
+
+    document.getElementById("random").innerHTML = randomNumber(500);
+  </script>
 
 </html>
